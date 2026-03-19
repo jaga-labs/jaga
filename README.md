@@ -1,7 +1,7 @@
 # JAGA
 
 <p align="center">
-  <img src="https://media.giphy.com/media/3o7btPCcdNniyf0ArS/giphy.gif" width="500"/>
+  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnJ2azR1b3o4Z2RpODVia2Fwcms3cHI2dmdpa3BpcHFvdWgyOXR5eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlTBJ2VAsXdJu24/giphy.gif" width="500"/>
 </p>
 
 **JAGA** is an open research initiative for building
