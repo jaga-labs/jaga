@@ -145,12 +145,26 @@ Explicit identification of:
 ## Repository Structure
 
 ```
+site/       → website (Netlify deployment)
 docs/       → documentation and design notes  
 datasets/   → language-wise dataset registry + analysis  
 models/     → experiments and benchmarks  
 tools/      → dataset analysis and utilities  
 reports/    → structured outputs and findings  
 ```
+
+---
+
+## Website
+
+The JAGA website is a lightweight static site hosted on Netlify. It features:
+
+* Interactive Odisha dialect map (hover/click any district)
+* Bilingual support (English ↔ Odia via Google Translate)
+* Project roadmap and dataset overview
+* Interest form for community participation
+
+**Deploy:** Connect this repo to Netlify — it publishes from `site/` with no build step required.
 
 ---
 
@@ -193,4 +207,4 @@ Measure it.
 
 ## License
 
-MIT License
+CC-BY 4.0 — Creative Commons Attribution 4.0 International
