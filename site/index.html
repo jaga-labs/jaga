@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JAGA Labs — Open Research for Indic Language AI</title>
+  <meta name="description" content="JAGA is an open research initiative building low-compute, culturally grounded AI systems for Indic languages, starting with Odia.">
+  <meta name="keywords" content="JAGA, Odia, Indic language, NLP, ASR, dataset, Odisha, dialect, open research">
+  <meta name="author" content="JAGA Labs">
+  <meta property="og:title" content="JAGA Labs — Open Research for Indic Language AI">
+  <meta property="og:description" content="Building transparent, dataset-first AI infrastructure for Indic languages.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/logo_v2.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Ikat top border -->
+<div class="ikat-border" aria-hidden="true"></div>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a href="#top" class="logo">
+      <img src="assets/logo_v2.png" alt="JAGA Labs Logo" width="40" height="40">
+      <span>JAGA Labs</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <button class="hamburger" aria-label="Toggle menu" id="menu-toggle">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#dialect-map">Dialect Map</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#datasets">Datasets</a></li>
+        <li><a href="#contribute">Contribute</a></li>
+        <li><a href="#interest">Interest Form</a></li>
+        <li class="translate-wrap"><div id="google_translate_element"></div></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="container">
+    <img src="assets/logo_v2.png" alt="JAGA Labs" class="hero-logo fade-in" width="80" height="80">
+    <h1 class="fade-in"><span class="highlight">Measure</span> the Language.<br>Don't Assume It.</h1>
+    <p class="hero-tagline fade-in">
+      An open research initiative for building low-compute, culturally grounded AI systems for Indic languages — starting with <strong>Odia (ଓଡ଼ିଆ)</strong>.
+    </p>
+    <a href="#about" class="hero-cta fade-in">
+      Explore the Project ↓
+    </a>
+    <div class="hero-badge fade-in">
+      <span class="tag">CC-BY 4.0 · Open Source</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="section section-alt" id="about">
+  <div class="container">
+    <div class="text-center">
+      <span class="tag fade-in">About JAGA</span>
+      <h2 class="fade-in">Data First. Models Second.</h2>
+      <p class="subtitle fade-in">
+        Most low-resource NLP work starts with models. JAGA starts with understanding the language itself — through data collection, structured analysis, and gap identification.
+      </p>
+    </div>
+    <div class="card-grid">
+      <div class="card fade-in">
+        <div class="card-icon red">📊</div>
+        <h3>Dataset-Centric</h3>
+        <p>Track, analyze, and expand datasets with measured gaps — not assumptions. Every dataset is registered with metadata, statistics, and provenance.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon gold">🔍</div>
+        <h3>Gap Analysis</h3>
+        <p>Identify missing domains, weak linguistic coverage, and data imbalance. Targeted collection fills exactly what's needed.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon green">🔄</div>
+        <h3>Iterative Pipeline</h3>
+        <p>New data → analysis → model → improvement → repeat. Each cycle improves dataset quality, model robustness, and language coverage.</p>
+      </div>
+    </div>
+    <div class="text-center" style="margin-top: 40px;">
+      <p class="fade-in" style="font-size:0.9rem; color:var(--text-muted);">
+        <strong>Core workflow:</strong> language → data → analysis → gaps → targeted collection → models
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DIALECT MAP ===== -->
+<section class="section map-section" id="dialect-map">
+  <div class="container">
+    <div class="text-center">
+      <span class="tag fade-in">Linguistic Diversity</span>
+      <h2 class="fade-in">Odisha Dialect Map</h2>
+      <p class="subtitle fade-in">
+        Explore the rich linguistic landscape of Odisha. Hover over any district to see its dialect — click for detailed information.
+      </p>
+    </div>
+    <div class="map-container fade-in" style="position:relative;">
+      <div class="map-wrapper" id="map-wrapper">
+        <!-- SVG is loaded inline via JS for interactivity -->
+      </div>
+      <div class="map-tooltip" id="map-tooltip"></div>
+    </div>
+    <div class="map-legend" id="map-legend"></div>
+    <div class="map-detail" id="map-detail"></div>
+    <div class="text-center" style="margin-top:20px;">
+      <p style="font-size:0.78rem; color:var(--text-light);">
+        Sources: Census of India, Linguistic Survey of India, CIIL Mysore, Grierson's LSI. 
+        Dialect boundaries are approximate and may overlap.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROADMAP ===== -->
+<section class="section section-alt" id="roadmap">
+  <div class="container">
+    <div class="text-center">
+      <span class="tag fade-in">Progress</span>
+      <h2 class="fade-in">Project Roadmap</h2>
+      <p class="subtitle fade-in">JAGA follows a structured, phased approach where each stage builds on validated data and analysis.</p>
+    </div>
+    <div class="timeline fade-in">
+      <div class="timeline-item active">
+        <div class="timeline-dot"></div>
+        <h3>JAGA v0.1 — Odia Foundation</h3>
+        <p>Analyze existing Odia datasets · Build analysis pipeline · Collect 10 hours of domain-tagged speech · Establish baseline ASR · Identify key linguistic gaps</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <h3>JAGA v0.2 — Expansion</h3>
+        <p>Implement adaptive/exception-aware decoding · Expand dataset coverage (science, numerics) · Improve quality through iteration</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <h3>JAGA v1.0 — Mature Infrastructure</h3>
+        <p>Mature Odia language infrastructure · Standardized datasets + benchmarks · Extend pipeline to additional Indic languages</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DATASETS ===== -->
+<section class="section" id="datasets">
+  <div class="container">
+    <div class="text-center">
+      <span class="tag fade-in">Research Areas</span>
+      <h2 class="fade-in">Focus Areas</h2>
+      <p class="subtitle fade-in">JAGA covers multiple dimensions of language technology, all driven by data analysis.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card fade-in">
+        <div class="card-icon red">🎙️</div>
+        <h3>Speech Systems</h3>
+        <p>Speech datasets, ASR (speech-to-text), text-to-speech, speech-to-text translation, and speech understanding beyond transcription.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon gold">📚</div>
+        <h3>Language Resources</h3>
+        <p>Parallel corpora, scientific and educational vocabulary, linguistic structure analysis, and domain-specific terminology.</p>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon green">🧠</div>
+        <h3>Models</h3>
+        <p>Low-resource ASR, efficient decoding (adaptive/exception-aware), and lightweight language models optimized for Indic languages.</p>
+      </div>
+    </div>
+    <div class="text-center" style="margin-top: 32px;">
+      <p class="fade-in" style="font-size:0.9rem; color:var(--text-muted);">
+        All datasets are organized under <code>datasets/&lt;language_code&gt;/</code> — with full metadata, analysis, and provenance documentation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTRIBUTE ===== -->
+<section class="section section-alt" id="contribute">
+  <div class="container">
+    <div class="text-center">
+      <span class="tag fade-in">Open Source</span>
+      <h2 class="fade-in">Contribute to JAGA</h2>
+      <p class="subtitle fade-in">JAGA is designed as an open system. Every contribution follows a structured proposal → validation → integration workflow.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card fade-in">
+        <h3>📦 Existing Datasets</h3>
+        <p>Add publicly available datasets with source, metadata (hours, domains, license), and a justification of what gap it fills.</p>
+      </div>
+      <div class="card fade-in">
+        <h3>🆕 New Datasets</h3>
+        <p>Create domain-specific datasets (education, science, literature). Provide collection method, expected size, and transcript availability.</p>
+      </div>
+      <div class="card fade-in">
+        <h3>🌐 New Languages</h3>
+        <p>Propose new Indic languages or dialects. Specify language code, classification, estimated sentence count, and linguistic differences.</p>
+      </div>
+    </div>
+    <div class="text-center fade-in" style="margin-top: 32px;">
+      <a href="https://github.com/jaga-labs/jaga" target="_blank" rel="noopener" class="hero-cta" style="font-size:0.9rem;">
+        View on GitHub →
+      </a>
+      <p style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted);">
+        All contributions start with an issue. No pull requests without prior discussion.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INTEREST FORM ===== -->
+<section class="section interest-section" id="interest">
+  <div class="container">
+    <div class="text-center">
+      <span class="tag fade-in">Get Involved</span>
+      <h2 class="fade-in">Express Your Interest</h2>
+      <p class="subtitle fade-in">
+        Whether you're a researcher, linguist, developer, or native speaker — we'd love to hear from you. Fill out the form to join the JAGA community.
+      </p>
+    </div>
+    <div class="form-cta-box fade-in">
+      <p style="margin-bottom: 24px; color: var(--text-muted);">
+        Help us build open AI infrastructure for Indic languages. Share your expertise, language skills, or research interest.
+      </p>
+      <a href="https://forms.gle/EjgJoFh8fYS4wka49" target="_blank" rel="noopener" class="btn-form" id="interest-form-btn">
+        📝 Open Interest Form
+      </a>
+      <p style="margin-top: 16px; font-size: 0.8rem; color: var(--text-light);">
+        Opens in Google Forms · Takes ~2 minutes
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:12px;">
+          <img src="assets/logo_v2.png" alt="JAGA Labs" width="32" height="32">
+          <span>JAGA Labs</span>
+        </div>
+        <p style="font-size:0.88rem; color:var(--text-muted); max-width:320px;">
+          An open research initiative for building low-compute, culturally grounded AI systems for Indic languages.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#dialect-map">Dialect Map</a></li>
+          <li><a href="#roadmap">Roadmap</a></li>
+          <li><a href="#datasets">Focus Areas</a></li>
+          <li><a href="#contribute">Contribute</a></li>
+          <li><a href="#interest">Interest Form</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://github.com/jaga-labs/jaga" target="_blank" rel="noopener">GitHub Repository</a></li>
+          <li><a href="https://forms.gle/EjgJoFh8fYS4wka49" target="_blank" rel="noopener">Interest Form</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Citations -->
+    <div class="citations">
+      <details>
+        <summary>📚 Citations &amp; Data Sources</summary>
+        <ol>
+          <li>Grierson, G.A. (1903–1928). <em>Linguistic Survey of India</em>, Vol. V. Government of India.</li>
+          <li>Central Institute of Indian Languages (CIIL), Mysore. Language data and surveys.</li>
+          <li>Census of India (2011). Language tables — Odisha state data.</li>
+          <li>Mahapatra, B.P. (2002). <em>Linguistic Survey of India: Orissa</em>. Language Division, Registrar General of India.</li>
+          <li>Pattanayak, D.P. (1966). <em>A Controlled Historical Reconstruction of Oriya, Assamese, Bengali, and Hindi</em>. Mouton.</li>
+          <li>Talkpal.ai — Odia dialect classification and regional variation reference.</li>
+          <li>UNESCO Atlas of the World's Languages in Danger.</li>
+        </ol>
+      </details>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="cc-badge">
+        <span>© 2026 JAGA Labs · Licensed under</span>
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">
+          CC-BY 4.0
+        </a>
+      </div>
+      <span>Built for Odisha's linguistic heritage 🏛️</span>
+    </div>
+  </div>
+</footer>
+
+<div class="ikat-border" aria-hidden="true"></div>
+
+<!-- ===== SCRIPTS ===== -->
+<!-- Load SVG map inline -->
+<script>
+  fetch('assets/odisha-map.svg')
+    .then(r => r.text())
+    .then(svg => {
+      document.getElementById('map-wrapper').innerHTML = svg;
+      // Re-dispatch DOMContentLoaded for map.js if already loaded
+      const evt = new Event('mapLoaded');
+      document.dispatchEvent(evt);
+    });
+</script>
+<script src="js/main.js"></script>
+<script src="js/translate.js"></script>
+<script src="js/map.js"></script>
+<!-- Google Translate API -->
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
