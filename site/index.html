@@ -105,16 +105,20 @@
       </p>
     </div>
     <div class="map-container fade-in" style="position:relative;">
-      <div class="map-wrapper" id="map-wrapper">
-        <!-- SVG is loaded inline via JS for interactivity -->
+      <div class="map-loading" id="map-loading" aria-live="polite">
+        <span class="map-loading-spinner" aria-hidden="true"></span>
+        <span>Loading map…</span>
       </div>
-      <div class="map-tooltip" id="map-tooltip"></div>
+      <div class="map-wrapper" id="map-wrapper">
+        <!-- SVG is injected inline by JS for interactivity -->
+      </div>
+      <div class="map-tooltip" id="map-tooltip" role="tooltip" aria-hidden="true"></div>
     </div>
-    <div class="map-legend" id="map-legend"></div>
-    <div class="map-detail" id="map-detail"></div>
+    <div class="map-legend" id="map-legend" aria-label="Dialect legend"></div>
+    <div class="map-detail" id="map-detail" aria-live="polite"></div>
     <div class="text-center" style="margin-top:20px;">
       <p style="font-size:0.78rem; color:var(--text-light);">
-        Sources: Census of India, Linguistic Survey of India, CIIL Mysore, Grierson's LSI. 
+        Sources: Census of India, Linguistic Survey of India, CIIL Mysore, Grierson's LSI.
         Dialect boundaries are approximate and may overlap.
       </p>
     </div>
@@ -302,22 +306,44 @@
 
 <div class="ikat-border" aria-hidden="true"></div>
 
-<!-- ===== SCRIPTS ===== -->
-<!-- Load SVG map inline -->
-<script>
-  fetch('assets/odisha-map.svg')
-    .then(r => r.text())
-    .then(svg => {
-      document.getElementById('map-wrapper').innerHTML = svg;
-      // Re-dispatch DOMContentLoaded for map.js if already loaded
-      const evt = new Event('mapLoaded');
-      document.dispatchEvent(evt);
-    });
-</script>
+<!-- ===== SCRIPTS =====
+     Load order matters:
+       1. main.js    — nav, scroll, fade-in (needs DOMContentLoaded)
+       2. map.js     — registers 'mapLoaded' listener (needs DOMContentLoaded)
+       3. translate.js — Google Translate helper (sync, no listener)
+       4. Inline SVG fetch — fires 'mapLoaded' after fetch resolves
+       5. Google Translate API — async, independent
+-->
 <script src="js/main.js"></script>
-<script src="js/translate.js"></script>
 <script src="js/map.js"></script>
+<script src="js/translate.js"></script>
+
+<!-- Inline SVG loader: fires after map.js has registered its listener -->
+<script>
+(function () {
+  var wrapper = document.getElementById('map-wrapper');
+  var loading = document.getElementById('map-loading');
+
+  fetch('assets/odisha-map.svg')
+    .then(function (r) {
+      if (!r.ok) throw new Error('SVG fetch failed: ' + r.status);
+      return r.text();
+    })
+    .then(function (svg) {
+      if (loading) loading.style.display = 'none';
+      wrapper.innerHTML = svg;
+      document.dispatchEvent(new Event('mapLoaded'));
+    })
+    .catch(function (err) {
+      console.error('Map load error:', err);
+      if (loading) {
+        loading.innerHTML = '<span style="color:var(--primary);">⚠ Map unavailable. Please reload.</span>';
+      }
+    });
+})();
+</script>
+
 <!-- Google Translate API -->
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
 </html>
