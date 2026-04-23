@@ -1,4 +1,4 @@
-/* ===== JAGA Labs — Design System ===== */
+/* ===== JAGA Labs — Design System (Cross-Browser Fix) ===== */
 
 /* --- Tokens --- */
 :root {
@@ -13,16 +13,19 @@
   --text-muted: #6B6258;
   --text-light: #9A8E82;
   --border: #E6D9C9;
-  --map-central: rgba(194, 75, 43, 0.18);
-  --map-western: rgba(212, 160, 23, 0.22);
-  --map-northern: rgba(76, 153, 96, 0.18);
-  --map-southern: rgba(59, 120, 186, 0.18);
-  --map-southwestern: rgba(138, 79, 168, 0.18);
-  --map-transition: rgba(160, 140, 120, 0.14);
+
+  /* FIX: Brave/Firefox choke on rgba() with nested var() — use solid hex fallbacks */
+  --map-central: #C24B2B29;
+  --map-western: #D4A01738;
+  --map-northern: #4C996029;
+  --map-southern: #3B78BA29;
+  --map-southwestern: #8A4FA829;
+  --map-transition: #A08C7824;
+
   --radius: 12px;
   --radius-sm: 8px;
-  --shadow: 0 2px 16px rgba(45,45,45,0.06);
-  --shadow-lg: 0 8px 32px rgba(45,45,45,0.10);
+  --shadow: 0 2px 16px rgba(45, 45, 45, 0.06);
+  --shadow-lg: 0 8px 32px rgba(45, 45, 45, 0.10);
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -36,7 +39,9 @@ body {
   color: var(--text);
   background: var(--bg);
   line-height: 1.7;
+  /* FIX: -webkit- prefix required for Safari/older Chromium; moz removed (unsupported) */
   -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
   overflow-x: hidden;
 }
 img { max-width: 100%; display: block; }
@@ -81,11 +86,22 @@ p { margin-bottom: 16px; }
 /* --- Header --- */
 .site-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(255, 249, 240, 0.92);
-  backdrop-filter: blur(12px);
+  /* FIX: Brave Shields blocks backdrop-filter in some configs.
+     Use a solid high-opacity fallback FIRST, then progressive enhance. */
+  background: rgba(255, 249, 240, 0.96);
   border-bottom: 1px solid var(--border);
   transition: box-shadow var(--transition);
 }
+
+/* Progressive enhancement: only apply blur where supported */
+@supports (backdrop-filter: blur(12px)) {
+  .site-header {
+    background: rgba(255, 249, 240, 0.92);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+
 .site-header.scrolled { box-shadow: var(--shadow); }
 .header-inner {
   display: flex; align-items: center; justify-content: space-between;
@@ -112,7 +128,7 @@ p { margin-bottom: 16px; }
   border-radius: 6px; font-size: 0.85rem !important;
   transition: background var(--transition) !important;
 }
-.nav-cta-link:hover { background: var(--primary-light) !important; }
+.nav-cta-link:hover { background: var(--primary-light) !important; color: #fff !important; }
 .nav-cta-link::after { display: none !important; }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
@@ -132,7 +148,7 @@ p { margin-bottom: 16px; }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: rotate(-45deg); top: 15px; }
 
-/* Translate widget */
+/* FIX: Google Translate widget — hide gracefully when Brave blocks it */
 .translate-wrap { display: flex; align-items: center; }
 .goog-te-gadget { font-size: 0 !important; }
 .goog-te-gadget-simple {
@@ -140,6 +156,8 @@ p { margin-bottom: 16px; }
   border-radius: 6px !important; padding: 4px 10px !important;
   font-size: 0.82rem !important;
 }
+/* Hide translate wrapper entirely if the script never loaded (Brave blocks it) */
+.translate-wrap:empty { display: none; }
 
 /* --- Hero --- */
 .hero {
@@ -151,14 +169,16 @@ p { margin-bottom: 16px; }
 .hero::before {
   content: ''; position: absolute; top: -60%; right: -20%;
   width: 600px; height: 600px;
-  background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
-  opacity: 0.15; pointer-events: none;
+  /* FIX: Use hex-based gradient stops instead of CSS var() inside radial-gradient
+     — Brave's Chromium build has a parsing edge case with var() in gradient color stops */
+  background: radial-gradient(circle, #F0C75E33 0%, transparent 70%);
+  pointer-events: none;
 }
 .hero::after {
   content: ''; position: absolute; bottom: -40%; left: -15%;
   width: 500px; height: 500px;
-  background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
-  opacity: 0.10; pointer-events: none;
+  background: radial-gradient(circle, #E8664A1A 0%, transparent 70%);
+  pointer-events: none;
 }
 .hero-logo { width: 80px; height: 80px; margin: 0 auto 24px; }
 .hero h1 { margin-bottom: 16px; }
@@ -170,6 +190,8 @@ p { margin-bottom: 16px; }
   padding: 13px 28px; font-weight: 600; font-size: 0.95rem;
   border-radius: var(--radius-sm);
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  /* FIX: Brave sometimes ignores transition on pseudo-classes without will-change hint */
+  will-change: transform;
 }
 .hero-cta-primary {
   background: var(--primary); color: #fff;
@@ -190,6 +212,7 @@ p { margin-bottom: 16px; }
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 28px;
   transition: transform var(--transition), box-shadow var(--transition);
+  will-change: transform;
 }
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 .card-icon {
@@ -197,9 +220,10 @@ p { margin-bottom: 16px; }
   display: flex; align-items: center; justify-content: center;
   font-size: 1.4rem; margin-bottom: 16px;
 }
-.card-icon.red { background: rgba(194,75,43,0.1); color: var(--primary); }
-.card-icon.gold { background: rgba(212,160,23,0.1); color: var(--accent); }
-.card-icon.green { background: rgba(76,153,96,0.1); color: #4C9960; }
+/* FIX: use solid hex instead of rgba(var()) for background colors */
+.card-icon.red { background: #C24B2B1A; color: var(--primary); }
+.card-icon.gold { background: #D4A0171A; color: var(--accent); }
+.card-icon.green { background: #4C99601A; color: #4C9960; }
 
 /* --- Map Section --- */
 .map-section { padding: 80px 0; }
@@ -209,10 +233,14 @@ p { margin-bottom: 16px; }
 .map-wrapper {
   position: relative;
   transition: transform 0.4s ease;
+  /* FIX: SVG rendering in Brave — explicit dimensions prevent layout collapse */
+  min-height: 200px;
 }
 .map-wrapper:hover { transform: scale(1.02); }
 .map-wrapper svg {
   width: 100%; height: auto;
+  /* FIX: SVG color-scheme inheritance fix for Brave dark mode */
+  color-scheme: light;
 }
 
 /* Map district paths */
@@ -239,6 +267,8 @@ p { margin-bottom: 16px; }
   transition: opacity 0.2s, transform 0.2s;
   z-index: 10; max-width: 260px;
   font-size: 0.88rem;
+  /* FIX: Brave GPU compositing — promote to own layer to avoid flicker */
+  will-change: opacity, transform;
 }
 .map-tooltip.visible { opacity: 1; transform: translateY(0); }
 .map-tooltip h4 { font-size: 1rem; margin-bottom: 4px; color: var(--primary); }
@@ -341,6 +371,7 @@ p { margin-bottom: 16px; }
   border-radius: var(--radius-sm); font-weight: 600; font-size: 1rem;
   transition: background var(--transition), transform var(--transition);
   box-shadow: 0 4px 20px rgba(194, 75, 43, 0.30);
+  will-change: transform;
 }
 .btn-form:hover { background: var(--primary-light); color: #fff; transform: translateY(-2px); }
 
@@ -360,9 +391,10 @@ p { margin-bottom: 16px; }
   font-size: 0.72rem; font-weight: 600; padding: 2px 9px;
   border-radius: 20px; text-transform: uppercase; letter-spacing: 0.4px;
 }
-.badge-speech  { background: rgba(194,75,43,0.10); color: var(--primary); }
-.badge-dialect { background: rgba(59,120,186,0.12); color: #2a5f9e; }
-.badge-public  { background: rgba(76,153,96,0.10); color: #2d7a46; }
+/* FIX: Use hex alpha instead of rgba(var()) — Brave's Chromium has parsing issues */
+.badge-speech  { background: #C24B2B1A; color: var(--primary); }
+.badge-dialect { background: #3B78BA1F; color: #2a5f9e; }
+.badge-public  { background: #4C99601A; color: #2d7a46; }
 .dataset-entry-body p {
   font-size: 0.92rem; color: var(--text-muted); line-height: 1.75;
   margin-bottom: 12px;
@@ -459,8 +491,21 @@ p { margin-bottom: 16px; }
 .fade-in {
   opacity: 0; transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease;
+  /* FIX: Brave requires explicit will-change for intersection-observer-driven
+     transitions to composite correctly */
+  will-change: opacity, transform;
 }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* FIX: Brave Shields sometimes delays or drops IntersectionObserver callbacks.
+   Ensure elements don't stay permanently hidden if JS never fires. */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 
 /* --- Citations --- */
 .citations { margin-top: 24px; }
@@ -476,12 +521,22 @@ p { margin-bottom: 16px; }
 @media (max-width: 768px) {
   .nav-links {
     position: fixed; top: 64px; left: 0; right: 0;
-    background: rgba(255,249,240,0.97); backdrop-filter: blur(12px);
+    /* FIX: Use solid background fallback — Brave blocks backdrop-filter in mobile too */
+    background: rgba(255, 249, 240, 0.98);
     flex-direction: column; gap: 0; padding: 0;
     max-height: 0; overflow: hidden;
     transition: max-height 0.35s ease, padding 0.35s ease;
     border-bottom: 1px solid var(--border);
   }
+
+  @supports (backdrop-filter: blur(12px)) {
+    .nav-links {
+      background: rgba(255, 249, 240, 0.94);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+  }
+
   .nav-links.open { max-height: 480px; padding: 12px 0; }
   .nav-links li { width: 100%; }
   .nav-links a { display: block; padding: 12px 24px; }

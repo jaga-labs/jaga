@@ -349,23 +349,90 @@
 <script src="js/map.js"></script>
 <script src="js/translate.js"></script>
 
+<!-- REPLACE the existing inline map script at the bottom of index.html with this: -->
+
+<!-- Map Loader: Cross-browser safe (Brave, Firefox, Safari) -->
 <script>
 (function () {
   var wrapper = document.getElementById('map-wrapper');
   var loading = document.getElementById('map-loading');
-  fetch('assets/odisha-map.svg')
-    .then(function (r) { return r.text(); })
-    .then(function (svg) {
-      if (loading) loading.style.display = 'none';
-      wrapper.innerHTML = svg;
-      document.dispatchEvent(new Event('mapLoaded'));
-    })
-    .catch(function () {
-      if (loading) loading.innerHTML = '<span style="color:var(--primary);">Map unavailable. Please reload the page.</span>';
-    });
+
+  // FIX: Brave sometimes blocks fetch() of SVG assets from the same origin
+  // when Shields are set to aggressive. Use XMLHttpRequest as a fallback
+  // since Brave's content-blocking affects fetch() differently than XHR.
+
+  function loadWithXHR(url, onSuccess, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.overrideMimeType('image/svg+xml');
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onSuccess(xhr.responseText);
+      } else {
+        onError(new Error('XHR status ' + xhr.status));
+      }
+    };
+    xhr.onerror = onError;
+    xhr.send();
+  }
+
+  function onMapLoaded(svgText) {
+    if (loading) loading.style.display = 'none';
+    wrapper.innerHTML = svgText;
+    document.dispatchEvent(new Event('mapLoaded'));
+  }
+
+  function onMapError(err) {
+    if (loading) {
+      loading.innerHTML = '<span style="color:var(--primary);">Map unavailable. Please reload the page.</span>';
+    }
+    console.warn('Map load failed:', err);
+  }
+
+  // Try fetch() first (modern browsers), fall back to XHR (Brave shield compat)
+  if (typeof fetch === 'function') {
+    fetch('assets/odisha-map.svg')
+      .then(function (r) {
+        if (!r.ok) throw new Error('fetch status ' + r.status);
+        return r.text();
+      })
+      .then(onMapLoaded)
+      .catch(function (fetchErr) {
+        // Fallback to XHR when fetch is blocked or fails
+        loadWithXHR('assets/odisha-map.svg', onMapLoaded, onMapError);
+      });
+  } else {
+    loadWithXHR('assets/odisha-map.svg', onMapLoaded, onMapError);
+  }
 })();
 </script>
 
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
+<!-- Google Translate: graceful degradation when Brave blocks translate.google.com -->
+<script>
+// FIX: Brave's Shields block translate.google.com tracker.
+// Wrap in try/catch and hide the translate widget if the script never initialises.
+function googleTranslateElementInit() {
+  try {
+    new google.translate.TranslateElement(
+      { pageLanguage: 'en' },
+      'google_translate_element'
+    );
+  } catch (e) {
+    // Script loaded but init failed — hide the widget slot
+    var tw = document.querySelector('.translate-wrap');
+    if (tw) tw.style.display = 'none';
+  }
+}
+
+// If the external translate script never loads (Brave blocks it),
+// hide the widget slot after a timeout so it doesn't look broken.
+setTimeout(function () {
+  var el = document.getElementById('google_translate_element');
+  if (el && el.children.length === 0) {
+    var tw = document.querySelector('.translate-wrap');
+    if (tw) tw.style.display = 'none';
+  }
+}, 3000);
+</script>
 </body>
 </html>
