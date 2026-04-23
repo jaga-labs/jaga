@@ -47,12 +47,12 @@ document.addEventListener('mapLoaded', () => {
   };
 
   const regionColors = {
-    central:      'var(--map-central)',
-    western:      'var(--map-western)',
-    northern:     'var(--map-northern)',
-    southern:     'var(--map-southern)',
-    southwestern: 'var(--map-southwestern)',
-    transition:   'var(--map-transition)'
+    central:      'rgba(194, 75, 43, 0.18)',
+    western:      'rgba(212, 160, 23, 0.22)',
+    northern:     'rgba(76, 153, 96, 0.18)',
+    southern:     'rgba(59, 120, 186, 0.18)',
+    southwestern: 'rgba(138, 79, 168, 0.18)',
+    transition:   'rgba(160, 140, 120, 0.14)'
   };
 
   const regionLabels = {
@@ -78,7 +78,7 @@ document.addEventListener('mapLoaded', () => {
     const id = path.getAttribute('data-district');
     const data = dialectData[id];
     if (data) {
-      path.style.fill = regionColors[data.region] || 'var(--map-transition)';
+      path.style.fill = regionColors[data.region] || 'rgba(160, 140, 120, 0.14)';
     }
   });
 
