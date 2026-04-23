@@ -205,30 +205,26 @@ p { margin-bottom: 16px; }
 /* --- Map Section --- */
 .map-section { padding: 80px 0; }
 .map-container {
-  perspective: 1200px;
   max-width: 720px; margin: 0 auto;
 }
 .map-wrapper {
   position: relative;
-  transform: rotateX(8deg) rotateY(-2deg);
-  transition: transform 0.5s ease;
-  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
 }
-.map-wrapper:hover { transform: rotateX(2deg) rotateY(0deg); }
+.map-wrapper:hover { transform: scale(1.02); }
 .map-wrapper svg {
   width: 100%; height: auto;
-  filter: drop-shadow(0 8px 24px rgba(45,45,45,0.10));
 }
 
 /* Map district paths */
 .district-path {
   stroke: var(--border); stroke-width: 1.2;
   cursor: pointer;
-  transition: fill var(--transition), stroke var(--transition), filter var(--transition);
+  transition: fill var(--transition), stroke var(--transition), opacity var(--transition);
 }
 .district-path:hover {
   stroke: var(--primary); stroke-width: 2;
-  filter: brightness(0.92);
+  opacity: 0.85;
 }
 .district-path.active {
   stroke: var(--primary); stroke-width: 2.5;
