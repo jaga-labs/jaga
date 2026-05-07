@@ -16,7 +16,6 @@
 # ------------------------------------------------------
 [[redirects]]
   from = "/translation/*"
-  # TODO: Replace this URL with the actual Netlify URL of your private translationApp repo!
-  to = "https://jaga-translation-portal-private.netlify.app/:splat"
+  to = "https://translationtask.netlify.app/:splat"
   status = 200
   force = true
