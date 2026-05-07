@@ -8,3 +8,15 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# ------------------------------------------------------
+# PROXY REWRITE FOR PRIVATE TRANSLATION PORTAL
+# This routes all traffic from jagalabs.netlify.app/translation/
+# directly to the private Github repository deployment without changing the URL.
+# ------------------------------------------------------
+[[redirects]]
+  from = "/translation/*"
+  # TODO: Replace this URL with the actual Netlify URL of your private translationApp repo!
+  to = "https://jaga-translation-portal-private.netlify.app/:splat"
+  status = 200
+  force = true
